@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Phoenix HRM Performance Test Suite" verbose="2" parallel="false" thread-count="1">
+    
+    <!-- Suite level parameters for performance testing -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="QA"/>
+    <parameter name="headless" value="true"/>
+    <parameter name="performance.mode" value="true"/>
+    
+    <!-- Global listeners for performance monitoring -->
+    <listeners>
+        <listener class-name="com.phoenix.hrm.core.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.core.listeners.ScreenshotListener"/>
+        <listener class-name="com.phoenix.hrm.core.listeners.RetryListener"/>
+    </listeners>
+    
+    <!-- Performance Test Suite - Employee List Performance Tests -->
+    <test name="Employee List Performance Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="performance"/>
+                <include name="load"/>
+                <include name="stress"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.performance.EmployeeListPerformanceTest">
+                <methods>
+                    <include name="testEmployeeList25Users"/>
+                    <include name="testEmployeeList50Users"/>
+                    <include name="testEmployeeList100Users"/>
+                    <include name="testEmployeeListSearchPerformance"/>
+                    <include name="testEmployeeListPaginationPerformance"/>
+                    <include name="testEmployeeListSortingPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Stress Test Suite - Find system breaking points -->
+    <test name="Stress Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="stress"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.performance.EmployeeListPerformanceTest">
+                <methods>
+                    <include name="testEmployeeListStressTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Quick Performance Test Suite - For faster validation -->
+    <test name="Quick Performance Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="performance"/>
+                <include name="quick"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.performance.EmployeeListPerformanceTest">
+                <methods>
+                    <include name="testEmployeeList25Users"/>
+                    <include name="testEmployeeListSearchPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

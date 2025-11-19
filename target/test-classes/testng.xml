@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Phoenix HRM Test Automation Suite" verbose="1" parallel="methods" thread-count="3">
+    
+    <!-- Suite level parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    <parameter name="headless" value="false"/>
+    
+    <!-- Global listeners -->
+    <listeners>
+        <!-- Add ExtentReports listener here when implemented -->
+        <!-- <listener class-name="com.phoenix.hrm.listeners.ExtentReportListener"/> -->
+    </listeners>
+    
+    <!-- Smoke Test Suite - Critical functionality -->
+    <test name="Smoke Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests">
+                <methods>
+                    <include name="testAdminLogin"/>
+                    <include name="testValidUserLogin"/>
+                    <include name="testSessionManagement"/>
+                </methods>
+            </class>
+            
+            <class name="com.phoenix.hrm.tests.ui.EmployeeLifecycleTests">
+                <methods>
+                    <include name="testAdminLogin"/>
+                    <include name="testAddMultipleEmployees"/>
+                    <include name="testSearchAndValidateEmployee"/>
+                    <include name="testEditEmployeeInformation"/>
+                    <include name="testDeleteEmployeeRecord"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- UI Test Suite - All user interface tests -->
+    <test name="UI Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="ui"/>
+                <exclude name="performance"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests"/>
+            <class name="com.phoenix.hrm.tests.ui.EmployeeLifecycleTests"/>
+        </classes>
+    </test>
+    
+    <!-- Login Test Suite - Authentication specific tests -->
+    <test name="Login Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="login"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests"/>
+        </classes>
+    </test>
+    
+    <!-- Employee Management Test Suite -->
+    <test name="Employee Management Tests" preserve-order="true">
+        <groups>
+            <run>
+                <include name="employee"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.EmployeeLifecycleTests"/>
+        </classes>
+    </test>
+    
+    <!-- Negative Test Suite -->
+    <test name="Negative Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="negative"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests">
+                <methods>
+                    <include name="testInvalidUsernameLogin"/>
+                    <include name="testInvalidPasswordLogin"/>
+                    <include name="testEmptyCredentialsLogin"/>
+                    <include name="testEmptyUsernameLogin"/>
+                    <include name="testEmptyPasswordLogin"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Performance Test Suite -->
+    <test name="Performance Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="performance"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests">
+                <methods>
+                    <include name="testLoginPerformance"/>
+                </methods>
+            </class>
+            
+            <class name="com.phoenix.hrm.tests.ui.EmployeeLifecycleTests">
+                <methods>
+                    <include name="testEmployeeListPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Regression Test Suite - All tests -->
+    <test name="Regression Tests" preserve-order="false">
+        <groups>
+            <run>
+                <include name=".*"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.ui.LoginTests"/>
+            <class name="com.phoenix.hrm.tests.ui.EmployeeLifecycleTests"/>
+        </classes>
+    </test>
+    
+</suite>

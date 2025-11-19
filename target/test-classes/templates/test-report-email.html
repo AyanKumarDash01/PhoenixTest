@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="{{locale}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{i18n:test.results}} - {{suiteName}}</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        /* Email client specific styles */
+        .outlook a {
+            padding: 0;
+        }
+
+        .ReadMsgBody {
+            width: 100%;
+        }
+
+        .ExternalClass {
+            width: 100%;
+        }
+
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 100%;
+        }
+
+        /* Main styles */
+        body {
+            width: 100% !important;
+            height: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .email-container {
+            max-width: 680px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, {{theme:primaryColor}}, {{theme:secondaryColor}});
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header-logo {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            line-height: 60px;
+            font-size: 24px;
+            font-weight: bold;
+            color: {{theme:primaryColor}};
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .summary-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .summary-title {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .stats-container {
+            display: table;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            display: table-cell;
+            width: 25%;
+            text-align: center;
+            padding: 20px 10px;
+            border-radius: 8px;
+            margin: 0 5px;
+        }
+
+        .stat-item.total {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+
+        .stat-item.passed {
+            background-color: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+
+        .stat-item.failed {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+
+        .stat-item.skipped {
+            background-color: #fff8e1;
+            border-left: 4px solid #ff9800;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .stat-item.total .stat-number {
+            color: #2196f3;
+        }
+
+        .stat-item.passed .stat-number {
+            color: #4caf50;
+        }
+
+        .stat-item.failed .stat-number {
+            color: #f44336;
+        }
+
+        .stat-item.skipped .stat-number {
+            color: #ff9800;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666666;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .success-rate {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .success-rate.good {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .success-rate.warning {
+            background-color: #fff8e1;
+            color: #ef6c00;
+            border: 1px solid #ffcc02;
+        }
+
+        .success-rate.poor {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .details-section {
+            margin: 30px 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: {{theme:primaryColor}};
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid {{theme:primaryColor}};
+        }
+
+        .info-grid {
+            display: table;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .info-row {
+            display: table-row;
+        }
+
+        .info-label {
+            display: table-cell;
+            width: 30%;
+            padding: 10px 15px 10px 0;
+            font-weight: bold;
+            color: #555555;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .info-value {
+            display: table-cell;
+            padding: 10px 0;
+            color: #333333;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .failure-section {
+            background-color: #fff5f5;
+            border: 1px solid #ffcdd2;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .failure-title {
+            color: #c62828;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .failure-item {
+            background-color: white;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .failure-test {
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+
+        .failure-message {
+            font-size: 14px;
+            color: #666666;
+            font-family: monospace;
+            background-color: #f9f9f9;
+            padding: 8px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: {{theme:primaryColor}};
+            color: white !important;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 20px 10px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: {{theme:secondaryColor}};
+        }
+
+        .button.secondary {
+            background-color: #6c757d;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: {{theme:primaryColor}};
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            background-color: {{theme:primaryColor}};
+            border-radius: 50%;
+            line-height: 40px;
+            color: white !important;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Mobile responsive styles */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .header h1 {
+                font-size: 24px !important;
+            }
+
+            .stats-container {
+                display: block !important;
+            }
+
+            .stat-item {
+                display: block !important;
+                width: 100% !important;
+                margin: 10px 0 !important;
+            }
+
+            .info-grid {
+                display: block !important;
+            }
+
+            .info-row {
+                display: block !important;
+            }
+
+            .info-label,
+            .info-value {
+                display: block !important;
+                width: 100% !important;
+                padding: 5px 0 !important;
+            }
+
+            .button {
+                display: block !important;
+                width: 100% !important;
+                margin: 10px 0 !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .email-container {
+                background-color: #1a1a1a !important;
+            }
+
+            .content {
+                color: #ffffff !important;
+            }
+
+            .summary-title,
+            .section-title {
+                color: {{theme:primaryColor}} !important;
+            }
+
+            .info-value {
+                color: #ffffff !important;
+            }
+
+            .footer {
+                background-color: #2a2a2a !important;
+                color: #cccccc !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">PHX</div>
+            <h1>{{i18n:test.results}}</h1>
+            <p>{{suiteName}} - {{formatDate reportDate "MMM dd, yyyy 'at' HH:mm"}}</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Summary Section -->
+            <div class="summary-section">
+                <h2 class="summary-title">Test Execution Summary</h2>
+                
+                <div class="stats-container">
+                    <div class="stat-item total">
+                        <div class="stat-number">{{totalTests}}</div>
+                        <div class="stat-label">{{i18n:total.tests}}</div>
+                    </div>
+                    <div class="stat-item passed">
+                        <div class="stat-number">{{passedTests}}</div>
+                        <div class="stat-label">{{i18n:passed.tests}}</div>
+                    </div>
+                    <div class="stat-item failed">
+                        <div class="stat-number">{{failedTests}}</div>
+                        <div class="stat-label">{{i18n:failed.tests}}</div>
+                    </div>
+                    <div class="stat-item skipped">
+                        <div class="stat-number">{{skippedTests}}</div>
+                        <div class="stat-label">Skipped</div>
+                    </div>
+                </div>
+
+                {{#if greaterThan divide passedTests totalTests 0.9}}
+                <div class="success-rate good">
+                    🎉 Excellent! {{round multiply divide passedTests totalTests 100 1}}% Success Rate
+                </div>
+                {{else if greaterThan divide passedTests totalTests 0.7}}
+                <div class="success-rate warning">
+                    ⚠️ {{round multiply divide passedTests totalTests 100 1}}% Success Rate - Room for Improvement
+                </div>
+                {{else}}
+                <div class="success-rate poor">
+                    🚨 {{round multiply divide passedTests totalTests 100 1}}% Success Rate - Needs Attention
+                </div>
+                {{/if}}
+            </div>
+
+            <!-- Build Information -->
+            <div class="details-section">
+                <h3 class="section-title">Build Information</h3>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <div class="info-label">Build Number:</div>
+                        <div class="info-value">{{buildNumber}}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Branch:</div>
+                        <div class="info-value">{{buildBranch}}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Total Duration:</div>
+                        <div class="info-value">{{totalDuration}}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Environment:</div>
+                        <div class="info-value">{{environment.testEnvironment}}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Browser:</div>
+                        <div class="info-value">{{environment.browser}} {{environment.browserVersion}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Failed Tests Section (only if there are failures) -->
+            {{#if failedTests}}
+            <div class="failure-section">
+                <h3 class="failure-title">⚠️ Failed Tests ({{failedTests}} of {{totalTests}})</h3>
+                {{#each testResults}}
+                {{#if equals status "FAILED"}}
+                <div class="failure-item">
+                    <div class="failure-test">{{className}}.{{methodName}}</div>
+                    <div style="font-size: 12px; color: #888; margin-bottom: 8px;">
+                        Duration: {{duration}}ms | Environment: {{environment}}
+                    </div>
+                    {{#if errorMessage}}
+                    <div class="failure-message">{{truncate errorMessage 200}}</div>
+                    {{/if}}
+                </div>
+                {{/if}}
+                {{/each}}
+            </div>
+            {{/if}}
+
+            <!-- Performance Highlights -->
+            <div class="details-section">
+                <h3 class="section-title">Performance Highlights</h3>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <div class="info-label">Fastest Test:</div>
+                        <div class="info-value">{{performance.fastestTest.name}} ({{performance.fastestTest.duration}}ms)</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Slowest Test:</div>
+                        <div class="info-value">{{performance.slowestTest.name}} ({{performance.slowestTest.duration}}ms)</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Average Duration:</div>
+                        <div class="info-value">{{round performance.averageDuration 1}}ms</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{reportUrl}}" class="button">📊 View Full Report</a>
+                <a href="{{dashboardUrl}}" class="button secondary">📈 View Dashboard</a>
+            </div>
+
+            <!-- Next Steps (conditional based on results) -->
+            <div class="details-section">
+                <h3 class="section-title">Recommended Actions</h3>
+                {{#if equals failedTests 0}}
+                <div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; border-left: 4px solid #4caf50;">
+                    <strong style="color: #2e7d32;">✅ All tests passed!</strong><br>
+                    <span style="color: #555;">Great job! Consider reviewing performance metrics and optimizing slower tests.</span>
+                </div>
+                {{else if lessThan failedTests 3}}
+                <div style="background-color: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                    <strong style="color: #ef6c00;">⚠️ Minor issues detected</strong><br>
+                    <span style="color: #555;">Please review the failed tests and fix any issues. Consider running the tests again.</span>
+                </div>
+                {{else}}
+                <div style="background-color: #ffebee; padding: 20px; border-radius: 8px; border-left: 4px solid #f44336;">
+                    <strong style="color: #c62828;">🚨 Multiple test failures</strong><br>
+                    <span style="color: #555;">Immediate attention required. Please review the failing tests, check for environmental issues, and coordinate with the development team.</span>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-text">
+                <strong>Phoenix HRM Test Automation Framework</strong><br>
+                Report generated on {{now "EEEE, MMMM dd, yyyy 'at' HH:mm:ss z"}}<br>
+                Framework Version 6.0
+            </div>
+            
+            <div class="footer-links">
+                <a href="{{documentationUrl}}">📚 Documentation</a>
+                <a href="{{supportUrl}}">🆘 Support</a>
+                <a href="{{settingsUrl}}">⚙️ Settings</a>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-link">🏢</a>
+                <a href="#" class="social-link">📧</a>
+                <a href="#" class="social-link">💬</a>
+                <a href="#" class="social-link">📱</a>
+            </div>
+
+            <div style="margin-top: 20px; font-size: 12px; color: #999999;">
+                You're receiving this email because you're subscribed to test execution notifications.<br>
+                <a href="{{unsubscribeUrl}}" style="color: #999999;">Unsubscribe</a> | 
+                <a href="{{preferencesUrl}}" style="color: #999999;">Update Preferences</a>
+            </div>
+        </div>
+    </div>
+
+    <!--[if mso]>
+    <style type="text/css">
+        .stats-container,
+        .info-grid {
+            width: 100% !important;
+        }
+        
+        .stat-item {
+            width: 25% !important;
+        }
+        
+        .button {
+            padding: 15px 30px !important;
+        }
+    </style>
+    <![endif]-->
+</body>
+</html>

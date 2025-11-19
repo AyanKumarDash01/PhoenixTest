@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--
+    Phoenix HRM BDD Test Suite Configuration
+    
+    This TestNG suite configuration orchestrates Cucumber BDD test execution
+    with support for different test categories, parallel execution, and reporting.
+    
+    Test Categories:
+    - Smoke Tests: Quick validation of core functionality
+    - Regression Tests: Comprehensive validation of all features
+    - Performance Tests: Performance validation scenarios
+    - API Tests: API integration validation
+    - Full Suite: All BDD scenarios
+    
+    Features:
+    - Parallel execution at suite level
+    - Thread-safe WebDriver management
+    - Comprehensive reporting integration
+    - Flexible configuration via system properties
+    - Test retry mechanism
+    - Screenshot capture on failure
+-->
+
+<suite name="Phoenix HRM BDD Test Suite" verbose="2" parallel="tests" thread-count="3">
+    
+    <!-- Suite-level parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="false"/>
+    <parameter name="base.url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <parameter name="implicit.wait" value="10"/>
+    <parameter name="page.load.timeout" value="30"/>
+    <parameter name="screenshot.on.failure" value="true"/>
+    
+    <!-- Listeners for enhanced reporting and test management -->
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.ScreenshotListener"/>
+    </listeners>
+    
+    <!-- Smoke Test Suite - Quick validation -->
+    <test name="BDD Smoke Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="smoke"/>
+        <parameter name="screenshot.always" value="false"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberSmokeTestRunner"/>
+        </classes>
+    </test>
+    
+    <!-- Regression Test Suite - Comprehensive validation -->
+    <test name="BDD Regression Tests" preserve-order="true" parallel="methods" thread-count="2">
+        <parameter name="test.category" value="regression"/>
+        <parameter name="screenshot.always" value="false"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberRegressionTestRunner"/>
+        </classes>
+    </test>
+    
+    <!-- Performance Test Suite - Performance validation -->
+    <test name="BDD Performance Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="performance"/>
+        <parameter name="screenshot.always" value="true"/>
+        <parameter name="page.load.timeout" value="5"/>
+        <parameter name="implicit.wait" value="5"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberPerformanceTestRunner"/>
+        </classes>
+    </test>
+    
+</suite>
+
+<!-- Alternative Suite Configurations -->
+
+<!--
+    Full BDD Test Suite Configuration
+    Executes all BDD scenarios with maximum parallelization
+-->
+<suite name="Phoenix HRM Full BDD Suite" verbose="2" parallel="methods" thread-count="4">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="true"/>
+    <parameter name="base.url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <parameter name="screenshot.on.failure" value="true"/>
+    <parameter name="screenshot.always" value="false"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.ScreenshotListener"/>
+    </listeners>
+    
+    <test name="Complete BDD Test Suite" preserve-order="false" parallel="methods" thread-count="4">
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberTestRunner"/>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    Cross-Browser BDD Test Suite Configuration
+    Executes BDD scenarios across multiple browsers
+-->
+<suite name="Phoenix HRM Cross-Browser BDD Suite" verbose="2" parallel="tests" thread-count="3">
+    
+    <parameter name="base.url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <parameter name="headless" value="true"/>
+    <parameter name="screenshot.on.failure" value="true"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+    </listeners>
+    
+    <!-- Chrome Browser Tests -->
+    <test name="BDD Chrome Tests" preserve-order="true">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="test.category" value="smoke"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberSmokeTestRunner"/>
+        </classes>
+    </test>
+    
+    <!-- Firefox Browser Tests -->
+    <test name="BDD Firefox Tests" preserve-order="true">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="test.category" value="smoke"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberSmokeTestRunner"/>
+        </classes>
+    </test>
+    
+    <!-- Edge Browser Tests -->
+    <test name="BDD Edge Tests" preserve-order="true">
+        <parameter name="browser" value="edge"/>
+        <parameter name="test.category" value="smoke"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberSmokeTestRunner"/>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    CI/CD Optimized BDD Suite Configuration
+    Optimized for continuous integration environments
+-->
+<suite name="Phoenix HRM CI BDD Suite" verbose="1" parallel="methods" thread-count="2">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="true"/>
+    <parameter name="base.url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <parameter name="implicit.wait" value="5"/>
+    <parameter name="page.load.timeout" value="15"/>
+    <parameter name="screenshot.on.failure" value="true"/>
+    <parameter name="screenshot.always" value="false"/>
+    <parameter name="log.steps" value="false"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.ScreenshotListener"/>
+    </listeners>
+    
+    <!-- Priority 1: Smoke tests for quick feedback -->
+    <test name="CI BDD Smoke Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="ci-smoke"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberSmokeTestRunner"/>
+        </classes>
+    </test>
+    
+    <!-- Priority 2: Critical regression tests -->
+    <test name="CI BDD Critical Tests" preserve-order="true" parallel="methods" thread-count="2">
+        <parameter name="test.category" value="ci-critical"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberRegressionTestRunner"/>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    Debug BDD Suite Configuration
+    Single-threaded execution with detailed logging for debugging
+-->
+<suite name="Phoenix HRM Debug BDD Suite" verbose="3" parallel="false">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="false"/>
+    <parameter name="base.url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <parameter name="implicit.wait" value="10"/>
+    <parameter name="page.load.timeout" value="30"/>
+    <parameter name="screenshot.on.failure" value="true"/>
+    <parameter name="screenshot.always" value="true"/>
+    <parameter name="screenshot.each.step" value="true"/>
+    <parameter name="log.steps" value="true"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.ScreenshotListener"/>
+    </listeners>
+    
+    <test name="Debug BDD Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="debug"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.runners.CucumberTestRunner"/>
+        </classes>
+    </test>
+    
+</suite>

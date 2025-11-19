@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--
+    Phoenix HRM API Test Suite Configuration
+    
+    Comprehensive TestNG suite for REST API testing using REST Assured
+    Includes CRUD operations, performance, security, and data validation tests
+    
+    Test Categories:
+    - API CRUD Operations (GET, POST, PUT, DELETE)
+    - Performance & Load Testing
+    - Data Validation & Security Testing
+    - Error Handling & Edge Cases
+    
+    Features:
+    - Parallel execution for performance tests
+    - Sequential execution for CRUD operations
+    - Comprehensive reporting integration
+    - Flexible environment configuration
+-->
+
+<suite name="Phoenix HRM API Test Suite" verbose="2" parallel="false">
+    
+    <!-- Suite-level parameters -->
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="true"/>
+    <parameter name="api.log.responses" value="true"/>
+    <parameter name="api.max.response.time" value="10000"/>
+    
+    <!-- Listeners for enhanced reporting and test management -->
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.ScreenshotListener"/>
+    </listeners>
+    
+    <!-- API Core Tests - Sequential execution for data consistency -->
+    <test name="API Core CRUD Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="api-core"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <!-- Core CRUD operations in order -->
+                <methods>
+                    <include name="testGetAllEmployees"/>
+                    <include name="testGetEmployeeById"/>
+                    <include name="testGetNonExistentEmployee"/>
+                    <include name="testCreateEmployee"/>
+                    <include name="testCreateEmployeeMinimalData"/>
+                    <include name="testUpdateEmployee"/>
+                    <include name="testUpdateNonExistentEmployee"/>
+                    <include name="testDeleteEmployee"/>
+                    <include name="testDeleteNonExistentEmployee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- API Validation Tests - Data and response validation -->
+    <test name="API Validation Tests" preserve-order="false" parallel="methods" thread-count="2">
+        <parameter name="test.category" value="api-validation"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testCreateEmployeeInvalidData"/>
+                    <include name="testResponseDataValidation"/>
+                    <include name="testSpecialCharacterHandling"/>
+                    <include name="testAPIAuthentication"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- API Performance Tests - Load and performance validation -->
+    <test name="API Performance Tests" preserve-order="false" parallel="methods" thread-count="3">
+        <parameter name="test.category" value="api-performance"/>
+        <parameter name="api.max.response.time" value="5000"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testAPIPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!-- Alternative Suite Configurations -->
+
+<!--
+    API Smoke Test Suite - Quick validation of core functionality
+-->
+<suite name="Phoenix HRM API Smoke Test Suite" verbose="1" parallel="false">
+    
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="false"/>
+    <parameter name="api.log.responses" value="false"/>
+    <parameter name="api.max.response.time" value="5000"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+    </listeners>
+    
+    <test name="API Smoke Tests" preserve-order="true" parallel="false">
+        <parameter name="test.category" value="api-smoke"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testGetAllEmployees"/>
+                    <include name="testCreateEmployee"/>
+                    <include name="testUpdateEmployee"/>
+                    <include name="testDeleteEmployee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    API Performance Test Suite - Load testing and performance validation
+-->
+<suite name="Phoenix HRM API Performance Suite" verbose="2" parallel="methods" thread-count="5">
+    
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="false"/>
+    <parameter name="api.log.responses" value="false"/>
+    <parameter name="api.max.response.time" value="3000"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.PerformanceListener"/>
+    </listeners>
+    
+    <test name="API Performance Tests" preserve-order="false" parallel="methods" thread-count="5">
+        <parameter name="test.category" value="api-performance"/>
+        <parameter name="performance.test.duration" value="300"/> <!-- 5 minutes -->
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testAPIPerformance"/>
+                    <include name="testGetAllEmployees"/>
+                    <include name="testGetEmployeeById"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    API Security Test Suite - Security and validation testing
+-->
+<suite name="Phoenix HRM API Security Suite" verbose="2" parallel="methods" thread-count="2">
+    
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="true"/>
+    <parameter name="api.log.responses" value="true"/>
+    <parameter name="api.max.response.time" value="10000"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.SecurityTestListener"/>
+    </listeners>
+    
+    <test name="API Security Tests" preserve-order="false" parallel="methods" thread-count="2">
+        <parameter name="test.category" value="api-security"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testCreateEmployeeInvalidData"/>
+                    <include name="testSpecialCharacterHandling"/>
+                    <include name="testAPIAuthentication"/>
+                    <include name="testGetNonExistentEmployee"/>
+                    <include name="testUpdateNonExistentEmployee"/>
+                    <include name="testDeleteNonExistentEmployee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    API Regression Test Suite - Comprehensive API testing
+-->
+<suite name="Phoenix HRM API Regression Suite" verbose="2" parallel="tests" thread-count="3">
+    
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="true"/>
+    <parameter name="api.log.responses" value="true"/>
+    <parameter name="api.max.response.time" value="15000"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.RetryListener"/>
+    </listeners>
+    
+    <!-- CRUD Tests -->
+    <test name="API CRUD Tests" preserve-order="true" parallel="false">
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testGetAllEmployees"/>
+                    <include name="testGetEmployeeById"/>
+                    <include name="testCreateEmployee"/>
+                    <include name="testCreateEmployeeMinimalData"/>
+                    <include name="testUpdateEmployee"/>
+                    <include name="testDeleteEmployee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Negative Tests -->
+    <test name="API Negative Tests" preserve-order="false" parallel="methods" thread-count="2">
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testGetNonExistentEmployee"/>
+                    <include name="testCreateEmployeeInvalidData"/>
+                    <include name="testUpdateNonExistentEmployee"/>
+                    <include name="testDeleteNonExistentEmployee"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Performance & Validation Tests -->
+    <test name="API Performance & Validation Tests" preserve-order="false" parallel="methods" thread-count="2">
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testAPIPerformance"/>
+                    <include name="testResponseDataValidation"/>
+                    <include name="testSpecialCharacterHandling"/>
+                    <include name="testAPIAuthentication"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    CI/CD API Test Suite - Optimized for continuous integration
+-->
+<suite name="Phoenix HRM CI API Suite" verbose="1" parallel="methods" thread-count="3">
+    
+    <parameter name="api.base.url" value="https://dummy.restapiexample.com"/>
+    <parameter name="api.base.path" value="/api/v1"/>
+    <parameter name="api.log.requests" value="false"/>
+    <parameter name="api.log.responses" value="false"/>
+    <parameter name="api.max.response.time" value="8000"/>
+    
+    <listeners>
+        <listener class-name="com.phoenix.hrm.listeners.TestListener"/>
+        <listener class-name="com.phoenix.hrm.listeners.CIReportListener"/>
+    </listeners>
+    
+    <test name="CI API Tests" preserve-order="false" parallel="methods" thread-count="3">
+        <parameter name="test.category" value="ci-api"/>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.api.EmployeeApiTests">
+                <methods>
+                    <include name="testGetAllEmployees"/>
+                    <include name="testGetEmployeeById"/>
+                    <include name="testCreateEmployee"/>
+                    <include name="testUpdateEmployee"/>
+                    <include name="testDeleteEmployee"/>
+                    <include name="testAPIPerformance"/>
+                    <include name="testResponseDataValidation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

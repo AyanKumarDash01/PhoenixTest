@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Phoenix HRM Simple Performance Test Suite" verbose="2" parallel="false" thread-count="1">
+    
+    <test name="Simple Performance Tests" preserve-order="true">
+        <classes>
+            <class name="com.phoenix.hrm.tests.SimplePerformanceTest"/>
+        </classes>
+    </test>
+    
+</suite>

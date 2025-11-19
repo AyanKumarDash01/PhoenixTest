@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Phoenix HRM Enhanced Test Suite" verbose="1" parallel="methods" thread-count="2">
+    
+    <!-- Global Test Parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="test"/>
+    <parameter name="baseUrl" value="https://opensource-demo.orangehrmlive.com/"/>
+    <parameter name="headless" value="false"/>
+    <parameter name="implicitWait" value="10"/>
+    <parameter name="explicitWait" value="30"/>
+    
+    <!-- Test Groups -->
+    <groups>
+        <define name="smoke">
+            <include name="login"/>
+            <include name="critical"/>
+        </define>
+        
+        <define name="regression">
+            <include name="login"/>
+            <include name="ui"/>
+            <include name="data-driven"/>
+            <include name="framework"/>
+        </define>
+        
+        <define name="enhanced-framework">
+            <include name="framework"/>
+            <include name="reporting"/>
+            <include name="data-management"/>
+        </define>
+    </groups>
+    
+    <!-- Listeners for Enhanced Reporting -->
+    <listeners>
+        <listener class-name="org.testng.reporters.XMLReporter"/>
+        <listener class-name="org.testng.reporters.JUnitReportReporter"/>
+    </listeners>
+    
+    <!-- Test Classes -->
+    <test name="Enhanced Login Tests" preserve-order="true">
+        <parameter name="testType" value="enhanced-login"/>
+        
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="regression"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.enhanced.EnhancedLoginTest">
+                <methods>
+                    <include name="testSuccessfulAdminLogin"/>
+                    <include name="testInvalidLogin"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Framework Component Tests -->
+    <test name="Framework Component Tests" preserve-order="true">
+        <parameter name="testType" value="framework-validation"/>
+        
+        <groups>
+            <run>
+                <include name="enhanced-framework"/>
+            </run>
+        </groups>
+        
+        <!-- These would be additional test classes for framework components -->
+        <!-- Placeholder for future framework validation tests -->
+    </test>
+    
+    <!-- Smoke Test Suite (Subset) -->
+    <test name="Smoke Tests" preserve-order="true" enabled="false">
+        <parameter name="testType" value="smoke"/>
+        
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.phoenix.hrm.tests.enhanced.EnhancedLoginTest">
+                <methods>
+                    <include name="testSuccessfulAdminLogin"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>

@@ -1,0 +1,72 @@
+# Maven build artifacts
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Test outputs and logs
+logs/
+screenshots/
+allure-results/
+test-results/
+*.log
+*.tmp
+
+# Reports (keep template, ignore generated)
+src/test/resources/reports/*.html
+extent-reports/
+cucumber-reports/
+
+# Node modules (if any frontend tools)
+node_modules/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Coverage reports
+jacoco.exec
+coverage/
+*.exec
+
+# Performance test results
+jmeter-results/
+gatling-results/
+
+# Environment specific files
+.env
+*.env
+
+# Database files (if H2 or embedded)
+*.db
+*.h2.db
+
+# Chrome driver logs
+chromedriver.log
+
+# Test data (sensitive)
+src/test/resources/testdata/sensitive/
+
+# Build tools
+.gradle/
+build/
+
+# Docker
+.docker/
