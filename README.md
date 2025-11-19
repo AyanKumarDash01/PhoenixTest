@@ -102,5 +102,48 @@ DELETE /api/employees/:id
 
 ---
 
-## License
-This project is licensed under the MIT License.
+#### Reporting Issues
+- Ensure write permissions for report directories
+- Check available disk space for screenshots
+- Verify report paths in configuration
+
+## 📈 Performance Considerations
+
+- **Parallel Execution**: TestNG supports parallel test execution
+- **Resource Management**: Automatic WebDriver cleanup
+- **Screenshot Optimization**: Captured only on failures by default
+- **Log Management**: Automatic log rotation and cleanup
+- **Memory Management**: Efficient object lifecycle management
+
+## 🤝 Contributing
+
+### Development Setup
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Make changes and add tests
+4. Run test suite: `mvn clean test`
+5. Commit changes: `git commit -m "Add new feature"`
+6. Push to branch: `git push origin feature/new-feature`
+7. Create Pull Request
+
+### Code Standards
+- Follow existing code formatting and structure
+- Add comprehensive JavaDoc comments
+- Include unit tests for new utilities
+- Update README for new features
+- Maintain test coverage above 80%
+
+## 📝 Documentation
+
+- **Performance Test Plan**: [`PERFORMANCE_TEST_PLAN.md`](PERFORMANCE_TEST_PLAN.md)
+- **API Documentation**: Auto-generated from test execution
+- **Test Reports**: HTML reports with detailed execution information
+- **JavaDoc**: Comprehensive inline code documentation
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- **Ayan kumar Dash** - *Initial work and framework design*
