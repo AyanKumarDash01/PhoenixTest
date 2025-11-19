@@ -1,147 +1,56 @@
-# Phoenix HRM Automation Framework
+# 🚀 Phoenix HRM Test Automation Framework
 
-## Overview
-Phoenix HRM Automation Framework is a Human Resource Management application developed using the MERN stack (MongoDB, Express.js, React.js, and Node.js). The system streamlines HR processes such as employee management and user authentication.
+A clean and simple test automation framework designed for learning,
+practicing, and showcasing real-world HRM application testing.\
+Built with modern automation principles, this project helps you
+understand how to structure tests, manage data, and run end-to-end
+checks efficiently.
 
----
+## 🔗 GitHub Repository
 
-## Technologies Used
-- **Frontend:** React.js, Tailwind CSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **Authentication:** JWT (JSON Web Token)
+**Repo:** https://github.com/AyanKumarDash01/PhoenixTest
 
----
+## 📌 What This Framework Covers
 
-## Features
-### 1. Authentication
-- Login
-- Registration
-- Protected routes using JWT
+-   Modular and easy-to-read test structure\
+-   Page Object Model (POM) for better reusability\
+-   Data-driven testing approach\
+-   Clean reporting setup\
+-   CI/CD-friendly structure
 
-### 2. Employee Management
-- Add employee
-- Update employee
-- Delete employee
-- View employee list
+## 🛠️ Tech Stack
 
----
+-   **Language:** Java\
+-   **Build Tool:** Maven\
+-   **Automation:** Selenium / TestNG\
+-   **Design Pattern:** Page Object Model\
+-   **Reporting:** Extent / Allure (based on your repo setup)
 
-## Installation
-### Prerequisites
-- Node.js
-- MongoDB
-- Git
+## 🎯 Goal of This Project
 
-### Steps to Run the Project
-```bash
-# Clone repository
-git clone <repo-url>
+To provide a lightweight, beginner-friendly automation suite that
+demonstrates: - How to write clean UI test scripts\
+- How to organize a scalable automation framework\
+- How to run test suites smoothly with configs and reports
 
-# Install backend dependencies
-cd backend
-npm install
+## 📂 Project Structure
 
-# Start backend server
-npm start
+    PhoenixTest  
+     ├── src  
+     │   ├── test  
+     │   ├── main  
+     │   └── resources  
+     ├── pom.xml  
+     └── testng.xml  
 
-# Install frontend dependencies
-cd ../frontend
-npm install
+## 🚀 How to Run
 
-# Start frontend client
-npm start
-```
+1.  Clone the repo\
+2.  Install dependencies (`mvn clean install`)\
+3.  Run tests through TestNG or Maven command
 
----
+## 👤 Author
 
-## Folder Structure
-```
-Phoenix HRM
-│
-├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   ├── middleware
-│   └── server.js
-│
-└── frontend
-    ├── src
-    │   ├── components
-    │   ├── pages
-    │   ├── context
-    │   └── App.js
-    └── tailwind.config.js
-```
-
----
-
-## API Endpoints
-### Auth Routes
-```
-POST /api/auth/register
-POST /api/auth/login
-```
-
-### Employee Routes
-```
-GET    /api/employees
-POST   /api/employees
-PUT    /api/employees/:id
-DELETE /api/employees/:id
-```
-
----
-
-## Future Enhancements
-- Role-based access
-- Attendance management
-- Payroll module
-- Leave management system
-
----
-
-#### Reporting Issues
-- Ensure write permissions for report directories
-- Check available disk space for screenshots
-- Verify report paths in configuration
-
-## 📈 Performance Considerations
-
-- **Parallel Execution**: TestNG supports parallel test execution
-- **Resource Management**: Automatic WebDriver cleanup
-- **Screenshot Optimization**: Captured only on failures by default
-- **Log Management**: Automatic log rotation and cleanup
-- **Memory Management**: Efficient object lifecycle management
-
-## 🤝 Contributing
-
-### Development Setup
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Make changes and add tests
-4. Run test suite: `mvn clean test`
-5. Commit changes: `git commit -m "Add new feature"`
-6. Push to branch: `git push origin feature/new-feature`
-7. Create Pull Request
-
-### Code Standards
-- Follow existing code formatting and structure
-- Add comprehensive JavaDoc comments
-- Include unit tests for new utilities
-- Update README for new features
-- Maintain test coverage above 80%
-
-## 📝 Documentation
-
-- **API Documentation**: Auto-generated from test execution
-- **Test Reports**: HTML reports with detailed execution information
-- **JavaDoc**: Comprehensive inline code documentation
-
-
-## 👥 Authors
-
-**Ayan kumar Dash** - *Initial work and framework design*
-
-- **Ayan kumar Dash** - *Initial work and framework design*
+**Ayan Kumar Dash**\
+A simple guy experimenting with automation frameworks and breaking
+things until they work 😄
