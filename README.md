@@ -135,15 +135,13 @@ DELETE /api/employees/:id
 
 ## 📝 Documentation
 
-- **Performance Test Plan**: [`PERFORMANCE_TEST_PLAN.md`](PERFORMANCE_TEST_PLAN.md)
 - **API Documentation**: Auto-generated from test execution
 - **Test Reports**: HTML reports with detailed execution information
 - **JavaDoc**: Comprehensive inline code documentation
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👥 Authors
+
+**Ayan kumar Dash** - *Initial work and framework design*
 
 - **Ayan kumar Dash** - *Initial work and framework design*
